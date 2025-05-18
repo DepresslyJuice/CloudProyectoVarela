@@ -1,0 +1,6 @@
+@VarelaProyectoCloud_HostAddress = http://localhost:5182
+
+GET {{VarelaProyectoCloud_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
