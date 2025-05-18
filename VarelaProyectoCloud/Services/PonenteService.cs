@@ -6,10 +6,11 @@ using Microsoft.EntityFrameworkCore;
 
 namespace VarelaProyectoCloud.Services
 {
-    private readonly ApplicationDbContext _context;
-    public class PonenteService
+    
+    public class PonenteService : IPonenteService
     {
-        public ParticipanteService(ApplicationDbContext context)
+        private readonly ApplicationDbContext _context;
+        public PonenteService(ApplicationDbContext context)
         {
             _context = context;
         }
@@ -40,12 +41,20 @@ namespace VarelaProyectoCloud.Services
             existing.email = ponente.email;
             existing.telefono = ponente.telefono;
             existing.institucion = ponente.institucion;
+            existing.bio = ponente.bio;
             existing.fecha_nacimiento = ponente.fecha_nacimiento;
             await _context.SaveChangesAsync();
             return true;
         }
 
-
+        public async Task<bool> DeletePonenteAsync(int id)
+        {
+            var ponente = await _context.Ponentes.FindAsync(id);
+            if (ponente == null) return false;
+            _context.Ponentes.Remove(ponente);
+            await _context.SaveChangesAsync();
+            return true;
+        }
 
     }
 }

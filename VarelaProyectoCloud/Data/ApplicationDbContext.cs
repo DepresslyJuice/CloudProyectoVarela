@@ -12,6 +12,7 @@ namespace VarelaProyectoCloud.Data
 
         public DbSet<Evento> Eventos { get; set; } = null!;
         public DbSet<Participante> Participantes { get; set; } = null!;
+        public DbSet<Ponente> Ponentes { get; set; } = null!;
 
         // Aquí puedes agregar el resto de modelos (Sesiones, Ponentes, etc.)
     }

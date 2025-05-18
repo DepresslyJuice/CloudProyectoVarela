@@ -15,7 +15,7 @@ namespace VarelaProyectoCloud.Models
         public string email { get; set; } = null!;
         public string? telefono { get; set; }
         public string? institucion { get; set; }
-        public string bio { get; set; }
+        public string? bio { get; set; }
         public DateTime? fecha_nacimiento { get; set; }
     }
 }
