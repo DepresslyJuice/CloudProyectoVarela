@@ -17,6 +17,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 builder.Services.AddScoped<IEventoService, EventoService>();
 builder.Services.AddScoped<IParticipanteService, ParticipanteService>();
 builder.Services.AddScoped<IPonenteService, PonenteService>();
+builder.Services.AddScoped<IEspacioService, EspacioService>();
 
 
 var app = builder.Build();
