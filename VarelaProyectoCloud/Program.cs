@@ -18,6 +18,7 @@ builder.Services.AddScoped<IEventoService, EventoService>();
 builder.Services.AddScoped<IParticipanteService, ParticipanteService>();
 builder.Services.AddScoped<IPonenteService, PonenteService>();
 builder.Services.AddScoped<IEspacioService, EspacioService>();
+builder.Services.AddScoped<IInscripcionService, InscripcionService>();
 
 
 var app = builder.Build();
