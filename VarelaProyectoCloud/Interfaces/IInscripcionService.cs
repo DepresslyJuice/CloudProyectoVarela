@@ -1,4 +1,5 @@
 ﻿using VarelaProyectoCloud.Models;
+using VarelaProyectoCloud.Services;
 
 namespace VarelaProyectoCloud.Interfaces
 {
@@ -10,5 +11,6 @@ namespace VarelaProyectoCloud.Interfaces
         Task<Inscripcion> UpdateInscripcionAsync(int id, Inscripcion inscripcion);
         Task<bool> DeleteInscripcionAsync(int id);
         Task<bool> CancelarInscripcionAsync(int id);
+        Task<string> RegistrarPagoAsync(Pago nuevoPago);
     }
 }

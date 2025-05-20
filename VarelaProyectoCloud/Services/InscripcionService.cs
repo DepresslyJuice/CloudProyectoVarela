@@ -68,5 +68,36 @@ namespace VarelaProyectoCloud.Services
             await _context.SaveChangesAsync();
             return true;
         }
+
+        public async Task<string> RegistrarPagoAsync(Pago nuevoPago)
+        {
+            // Obtener inscripción con su tipo de inscripción
+            var inscripcion = await _context.Inscripciones
+                .Include(i => i.tipo_inscripcion)
+                .FirstOrDefaultAsync(i => i.inscripcion_id == nuevoPago.inscripcion_id);
+
+            if (inscripcion == null)
+                return "Inscripción no encontrada.";
+
+            if (inscripcion.estado == "Pagado")
+                return "La inscripción ya está pagada.";
+
+            // Validar que el monto sea correcto
+            var costoEsperado = inscripcion.tipo_inscripcion?.costo ?? 0;
+
+            if (nuevoPago.monto != costoEsperado)
+                return $"El monto a pagar debe ser exactamente {costoEsperado}.";
+
+            // Guardar el pago
+            nuevoPago.fecha_pago = DateTime.UtcNow;
+            _context.Pagos.Add(nuevoPago);
+
+            // Cambiar estado de inscripción
+            inscripcion.estado = "Pagado";
+
+            await _context.SaveChangesAsync();
+            return "Pago registrado correctamente y estado actualizado a 'Pagado'.";
+        }
+
     }
 }
