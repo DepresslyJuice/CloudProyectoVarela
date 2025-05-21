@@ -17,5 +17,7 @@ namespace VarelaProyectoCloud.Models
         public string? institucion { get; set; }
         public string? bio { get; set; }
         public DateTime? fecha_nacimiento { get; set; }
+
+        public ICollection<PonenteSesion> ponente_sesiones { get; set; } = new List<PonenteSesion>();
     }
 }

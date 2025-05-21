@@ -13,6 +13,7 @@ namespace VarelaProyectoCloud.Services
         public double monto { get; set; }
         public DateTime fecha_pago { get; set; }
         public string metodo_pago { get; set; } = null!;
+
         //Propiedades de navegación con ForeignKey explícito
         [ForeignKey("inscripcion_id")]
         public Inscripcion? inscripcion { get; set; }
