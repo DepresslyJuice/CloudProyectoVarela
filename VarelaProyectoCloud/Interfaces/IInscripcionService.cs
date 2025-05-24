@@ -12,5 +12,7 @@ namespace VarelaProyectoCloud.Interfaces
         Task<bool> DeleteInscripcionAsync(int id);
         Task<bool> CancelarInscripcionAsync(int id);
         Task<string> RegistrarPagoAsync(Pago nuevoPago);
+        Task<string> CrearCertificadoAsync(int inscripcionId);
+
     }
 }

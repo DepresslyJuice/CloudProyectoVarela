@@ -74,12 +74,5 @@ namespace VarelaProyectoCloud.Services
                 .FirstOrDefaultAsync(c => c.codigo_verificacion == codigoVerificacion);
             return certificado != null;
         }
-        public async Task<bool> EnviarCertificadoPorEmailAsync(string email, string urlCertificado)
-        {
-            // Lógica para enviar el certificado por email
-            // Aquí puedes usar un servicio de correo electrónico como SendGrid, SMTP, etc.
-            // Por simplicidad, solo retornamos true
-            return await Task.FromResult(true);
-        }
     }
 }

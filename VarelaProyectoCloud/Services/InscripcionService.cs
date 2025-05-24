@@ -99,5 +99,65 @@ namespace VarelaProyectoCloud.Services
             return "Pago registrado correctamente y estado actualizado a 'Pagado'.";
         }
 
+        public async Task<string> CrearCertificadoAsync(int inscripcionId)
+        {
+            var inscripcion = await _context.Inscripciones
+                .Include(i => i.evento)
+                .FirstOrDefaultAsync(i => i.inscripcion_id == inscripcionId);
+
+            if (inscripcion == null)
+                return "Inscripción no encontrada.";
+
+            if (inscripcion.estado != "Pagado")
+                return "La inscripción aún no ha sido pagada.";
+
+            // Obtener todas las sesiones del evento
+            var sesionesEvento = await _context.Sesiones
+                .Where(s => s.evento_id == inscripcion.evento_id)
+                .ToListAsync();
+
+            if (sesionesEvento.Count == 0)
+                return "El evento no tiene sesiones registradas.";
+
+            // Verificar asistencia completa
+            var sesionesAsistidas = await _context.Asistencias
+                .Where(a => a.inscripcion_id == inscripcionId && a.asistio)
+                .Select(a => a.sesion_id)
+                .Distinct()
+                .ToListAsync();
+
+            var idsSesionesEvento = sesionesEvento.Select(s => s.sesion_id).OrderBy(x => x).ToList();
+            var idsSesionesAsistidas = sesionesAsistidas.OrderBy(x => x).ToList();
+
+            if (!idsSesionesEvento.SequenceEqual(idsSesionesAsistidas))
+                return "El participante no ha asistido a todas las sesiones del evento.";
+
+            // Validar si ya existe un certificado
+            var certificadoExistente = await _context.Certificados
+                .FirstOrDefaultAsync(c => c.inscripcion_id == inscripcionId);
+
+            if (certificadoExistente != null)
+                return "El certificado ya ha sido generado.";
+
+            // Generar código único y URL simulada
+            var codigoVerificacion = Guid.NewGuid().ToString().Substring(0, 8).ToUpper();
+            var urlCertificado = $"https://tusitio.com/certificados/{codigoVerificacion}";
+
+            var nuevoCertificado = new Certificado
+            {
+                inscripcion_id = inscripcionId,
+                fecha_emision = DateTime.UtcNow,
+                codigo_verificacion = codigoVerificacion,
+                url_certificado = urlCertificado
+            };
+
+            _context.Certificados.Add(nuevoCertificado);
+            await _context.SaveChangesAsync();
+
+            return $"Certificado generado exitosamente. Código de verificación: {codigoVerificacion}";
+        }
+
+
+
     }
 }

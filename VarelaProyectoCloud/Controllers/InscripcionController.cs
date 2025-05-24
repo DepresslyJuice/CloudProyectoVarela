@@ -61,7 +61,7 @@ namespace VarelaProyectoCloud.Controllers
             return success ? NoContent() : NotFound();
         }
 
-        [HttpPost("registrar")]
+        [HttpPost("registrarpago")]
         public async Task<IActionResult> RegistrarPago([FromBody] Pago pago)
         {
             var mensaje = await _inscripcionService.RegistrarPagoAsync(pago);
@@ -70,6 +70,20 @@ namespace VarelaProyectoCloud.Controllers
 
             return BadRequest(mensaje);
         }
+
+        [HttpPost("{id}/generar-certificado")]
+        public async Task<IActionResult> GenerarCertificado(int id)
+        {
+            var resultado = await _inscripcionService.CrearCertificadoAsync(id);
+
+            if (resultado.StartsWith("Certificado generado exitosamente"))
+                return Ok(new { mensaje = resultado });
+
+            return BadRequest(new { error = resultado });
+        }
+
+
+
 
     }
 }
