@@ -53,13 +53,13 @@ namespace VarelaProyectoCloud.Controllers
             var success = await _sesionService.DeleteSesionAsync(id);
             return success ? NoContent() : NotFound();
         }
-        [HttpGet("evento/{eventoId}")]
+        [HttpGet("sesionesporevento/{eventoId}")]
         public async Task<IActionResult> GetSesionesByEventoId(int eventoId)
         {
             var sesiones = await _sesionService.GetSesionesByEventoIdAsync(eventoId);
             return Ok(sesiones);
         }
-        [HttpGet("espacio/{espacioId}")]
+        [HttpGet("sesionesporespacio/{espacioId}")]
         public async Task<IActionResult> GetSesionesByEspacioId(int espacioId)
         {
             var sesiones = await _sesionService.GetSesionesByEspacioIdAsync(espacioId);
